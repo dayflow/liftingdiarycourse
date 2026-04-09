@@ -43,3 +43,6 @@ Before writing any Next.js code, read the relevant guide in `node_modules/next/d
 ## Coding Standards
 
 Before generating any code, always check the `/docs` directory for a relevant standards file and follow it. For example, before writing any UI code, read `docs/ui.md`.
+
+- `docs/ui.md` — UI component and date formatting standards
+- `docs/data-fetching.md` — Data fetching standards (Server Components only, `/data` helpers, Drizzle ORM, user data isolation)

@@ -30,7 +30,7 @@ export const exerciseDefinitions = pgTable(
     muscleGroup: text('muscle_group'),
     isCustom: boolean('is_custom').notNull().default(false),
     createdByUserId: text('created_by_user_id'), // null = global; clerk user_id = custom
-    createdAt: timestamp('created_at').notNull().defaultNow(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => ({
     nameIdx: index('exercise_definitions_name_idx').on(t.name),
@@ -47,11 +47,11 @@ export const workouts = pgTable(
   {
     id: serial('id').primaryKey(),
     userId: text('user_id').notNull(),
-    startedAt: timestamp('started_at').notNull(),
-    endedAt: timestamp('ended_at'), // nullable — set when session ends
+    startedAt: timestamp('started_at', { withTimezone: true }).notNull(),
+    endedAt: timestamp('ended_at', { withTimezone: true }), // nullable — set when session ends
     notes: text('notes'),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at').notNull().defaultNow(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => ({
     userIdx: index('workouts_user_id_idx').on(t.userId),
@@ -75,7 +75,7 @@ export const workoutExercises = pgTable(
       .references(() => exerciseDefinitions.id, { onDelete: 'restrict' }),
     orderIndex: integer('order_index').notNull().default(0),
     notes: text('notes'),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => ({
     workoutIdx: index('workout_exercises_workout_id_idx').on(t.workoutId),
@@ -100,7 +100,7 @@ export const sets = pgTable(
     weightUnit: weightUnitEnum('weight_unit').notNull().default('lbs'),
     isWarmup: boolean('is_warmup').notNull().default(false),
     rpe: numeric('rpe', { precision: 3, scale: 1 }),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => ({
     workoutExerciseIdx: index('sets_workout_exercise_id_idx').on(t.workoutExerciseId),
