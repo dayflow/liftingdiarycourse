@@ -39,3 +39,7 @@ This is a **Next.js 16** app using the **App Router** with React 19, TypeScript,
 - **Tailwind CSS v4** is used — check its docs for breaking changes from v3 (e.g., configuration via CSS instead of `tailwind.config.js`).
 
 Before writing any Next.js code, read the relevant guide in `node_modules/next/dist/docs/`.
+
+## Coding Standards
+
+Before generating any code, always check the `/docs` directory for a relevant standards file and follow it. For example, before writing any UI code, read `docs/ui.md`.

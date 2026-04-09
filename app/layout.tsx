@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Figtree } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider, SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
-import "./globals.css";
 import { cn } from "@/lib/utils";
-
-const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,13 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", figtree.variable)}
-    >
-      <body className="min-h-full flex flex-col">
-        <ClerkProvider>
-          <header>
+    <ClerkProvider>
+      <html lang="en" className={cn(geistSans.variable, geistMono.variable)}>
+        <body>
+          <header className="flex items-center justify-end px-6 py-3 border-b">
             <Show when="signed-out">
               <SignInButton mode="modal" />
               <SignUpButton mode="modal" />
@@ -43,8 +38,8 @@ export default function RootLayout({
             </Show>
           </header>
           {children}
-        </ClerkProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

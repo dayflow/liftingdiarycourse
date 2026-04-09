@@ -6,11 +6,29 @@
       "Bash(claude mcp:*)",
       "mcp__neon__list_projects",
       "mcp__neon__get_database_tables",
-      "mcp__neon__run_sql_transaction"
+      "mcp__neon__run_sql_transaction",
+      "Bash(git:*)",
+      "Bash(npm run:*)",
+      "mcp__neon__run_sql",
+      "Bash(npx shadcn@latest add calendar card popover --yes)"
     ]
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "neon"
-  ]
+  ],
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd C:/Users/daisy.alary/liftingdiarycourse && npm run lint 2>&1 || true",
+            "statusMessage": "Running ESLint..."
+          }
+        ]
+      }
+    ]
+  }
 }
