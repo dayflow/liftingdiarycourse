@@ -6,6 +6,7 @@ import { updateWorkout } from '@/data/workouts'
 
 const updateWorkoutSchema = z.object({
   workoutId: z.number().int().positive(),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   startedAt: z.date(),
   endedAt: z.date().optional(),
   notes: z.string().optional(),
@@ -23,10 +24,11 @@ export async function saveWorkout(input: UpdateWorkoutInput) {
   await updateWorkout(
     userId,
     parsed.data.workoutId,
+    parsed.data.date,
     parsed.data.startedAt,
     parsed.data.endedAt ?? null,
     parsed.data.notes ?? null
   )
 
-  return { date: parsed.data.startedAt.toISOString().split('T')[0] }
+  return { date: parsed.data.date }
 }

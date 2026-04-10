@@ -1,7 +1,6 @@
 import { db } from '@/db'
 import { workouts, workoutExercises, exerciseDefinitions } from '@/db/schema'
-import { eq, and, gte, lt } from 'drizzle-orm'
-import { startOfDay, endOfDay } from 'date-fns'
+import { eq, and } from 'drizzle-orm'
 
 export type WorkoutWithExercises = {
   id: number
@@ -17,7 +16,7 @@ export type WorkoutWithExercises = {
 
 export async function getWorkoutsForDate(
   userId: string,
-  date: Date
+  date: string
 ): Promise<WorkoutWithExercises[]> {
   const rows = await db
     .select({
@@ -38,8 +37,7 @@ export async function getWorkoutsForDate(
     .where(
       and(
         eq(workouts.userId, userId),
-        gte(workouts.startedAt, startOfDay(date)),
-        lt(workouts.startedAt, endOfDay(date))
+        eq(workouts.date, date)
       )
     )
     .orderBy(workouts.startedAt, workoutExercises.orderIndex)
@@ -81,25 +79,27 @@ export async function getWorkoutById(userId: string, workoutId: number) {
 export async function updateWorkout(
   userId: string,
   workoutId: number,
+  date: string,
   startedAt: Date,
   endedAt: Date | null,
   notes: string | null
 ) {
   await db
     .update(workouts)
-    .set({ startedAt, endedAt, notes, updatedAt: new Date() })
+    .set({ date, startedAt, endedAt, notes, updatedAt: new Date() })
     .where(and(eq(workouts.id, workoutId), eq(workouts.userId, userId)))
 }
 
 export async function insertWorkout(
   userId: string,
+  date: string,
   startedAt: Date,
   endedAt: Date | null,
   notes: string | null
 ) {
   const [workout] = await db
     .insert(workouts)
-    .values({ userId, startedAt, endedAt, notes })
+    .values({ userId, date, startedAt, endedAt, notes })
     .returning({ id: workouts.id })
   return workout
 }

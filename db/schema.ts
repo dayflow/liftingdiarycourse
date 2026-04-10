@@ -5,6 +5,7 @@ import {
   integer,
   numeric,
   timestamp,
+  date,
   boolean,
   pgEnum,
   index,
@@ -47,6 +48,7 @@ export const workouts = pgTable(
   {
     id: serial('id').primaryKey(),
     userId: text('user_id').notNull(),
+    date: date('date').notNull(),
     startedAt: timestamp('started_at', { withTimezone: true }).notNull(),
     endedAt: timestamp('ended_at', { withTimezone: true }), // nullable — set when session ends
     notes: text('notes'),
@@ -55,7 +57,7 @@ export const workouts = pgTable(
   },
   (t) => ({
     userIdx: index('workouts_user_id_idx').on(t.userId),
-    userDateIdx: index('workouts_user_date_idx').on(t.userId, t.startedAt),
+    userDateIdx: index('workouts_user_date_idx').on(t.userId, t.date),
   })
 );
 

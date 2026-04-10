@@ -1,6 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import { format, parseISO } from 'date-fns'
+import { format, parse } from 'date-fns'
 import { getWorkoutsForDate } from '@/data/workouts'
 import { DatePicker } from './DatePicker'
 import { WorkoutCard } from './WorkoutCard'
@@ -15,15 +15,16 @@ export default async function DashboardPage({ searchParams }: Props) {
   if (!userId) redirect('/sign-in')
 
   const { date: dateParam } = await searchParams
-  const date = dateParam ? parseISO(dateParam) : new Date()
+  const dateStr = dateParam ?? format(new Date(), 'yyyy-MM-dd')
+  const date = parse(dateStr, 'yyyy-MM-dd', new Date())
 
-  const workoutSessions = await getWorkoutsForDate(userId, date)
+  const workoutSessions = await getWorkoutsForDate(userId, dateStr)
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-10 space-y-8">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
-        <DatePicker selected={format(date, 'yyyy-MM-dd')} />
+        <DatePicker selected={dateStr} />
       </div>
 
       <section className="space-y-4">

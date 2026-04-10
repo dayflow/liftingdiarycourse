@@ -45,7 +45,7 @@ export function NewWorkoutForm({ defaultDate, defaultTime }: Props) {
     }
 
     try {
-      const result = await createWorkout({ startedAt, endedAt, notes: notes || undefined })
+      const result = await createWorkout({ date: format(date, 'yyyy-MM-dd'), startedAt, endedAt, notes: notes || undefined })
       router.push(`/dashboard?date=${result.date}`)
     } catch {
       setError('Something went wrong. Please try again.')

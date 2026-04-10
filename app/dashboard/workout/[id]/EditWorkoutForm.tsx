@@ -47,7 +47,7 @@ export function EditWorkoutForm({ workoutId, defaultDate, defaultStartTime, defa
     }
 
     try {
-      const result = await saveWorkout({ workoutId, startedAt, endedAt, notes: notes || undefined })
+      const result = await saveWorkout({ workoutId, date: format(date, 'yyyy-MM-dd'), startedAt, endedAt, notes: notes || undefined })
       router.push(`/dashboard?date=${result.date}`)
     } catch {
       setError('Something went wrong. Please try again.')
