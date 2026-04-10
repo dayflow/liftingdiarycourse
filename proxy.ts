@@ -1,6 +1,10 @@
 import { clerkMiddleware } from '@clerk/nextjs/server'
 
-export default clerkMiddleware(async () => {}, { clockSkewInMs: 60_000 })
+export default clerkMiddleware(async (auth, req) => {
+  if (req.nextUrl.pathname.startsWith('/dashboard')) {
+    await auth.protect()
+  }
+}, { clockSkewInMs: 60_000 })
 
 export const config = {
   matcher: [
