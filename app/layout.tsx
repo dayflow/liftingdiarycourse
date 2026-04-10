@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={cn(geistSans.variable, geistMono.variable)}>
+      <html lang="en" className={cn(geistSans.variable, geistMono.variable, "dark")}>
         <body>
           <header className="flex items-center justify-end px-6 py-3 border-b">
             <Show when="signed-out">
