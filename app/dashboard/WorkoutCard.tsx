@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { parseISO, format } from 'date-fns'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { WorkoutWithExercises } from '@/data/workouts'
@@ -13,7 +14,8 @@ export function WorkoutCard({ session }: Props) {
   const endedAt = session.endedAt ? parseISO(session.endedAt) : null
 
   return (
-    <Card>
+    <Link href={`/dashboard/workout/${session.id}`}>
+    <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
       <CardHeader className="pb-1">
         <CardTitle className="text-base">
           {format(startedAt, 'h:mm a')}
@@ -35,5 +37,6 @@ export function WorkoutCard({ session }: Props) {
         )}
       </CardContent>
     </Card>
+    </Link>
   )
 }
