@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { format, parseISO } from 'date-fns'
+import { format, parse } from 'date-fns'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { buttonVariants } from '@/components/ui/button'
@@ -16,7 +16,7 @@ type Props = {
 export function DatePicker({ selected: selectedISO }: Props) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
-  const selected = parseISO(selectedISO)
+  const selected = parse(selectedISO, 'yyyy-MM-dd', new Date())
 
   function handleSelect(d: Date | undefined) {
     if (!d) return
