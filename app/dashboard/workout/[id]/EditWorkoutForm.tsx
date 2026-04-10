@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -14,8 +14,7 @@ import { cn } from '@/lib/utils'
 import { saveWorkout } from './actions'
 
 function toLocalTimeString(isoString: string) {
-  const d = new Date(isoString)
-  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+  return format(parseISO(isoString), 'HH:mm')
 }
 
 type Props = {
