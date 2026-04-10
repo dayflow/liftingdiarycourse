@@ -10,7 +10,8 @@
       "Bash(git:*)",
       "Bash(npm run:*)",
       "mcp__neon__run_sql",
-      "Bash(npx shadcn@latest add calendar card popover --yes)"
+      "Bash(npx shadcn@latest add calendar card popover --yes)",
+      "Bash(npx shadcn@latest:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
