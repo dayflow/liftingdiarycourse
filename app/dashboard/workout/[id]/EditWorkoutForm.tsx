@@ -13,19 +13,24 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils'
 import { saveWorkout } from './actions'
 
+function toLocalTimeString(isoString: string) {
+  const d = new Date(isoString)
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+}
+
 type Props = {
   workoutId: number
   defaultDate: string
-  defaultStartTime: string
-  defaultEndTime: string
+  defaultStartedAt: string
+  defaultEndedAt: string
   defaultNotes: string
 }
 
-export function EditWorkoutForm({ workoutId, defaultDate, defaultStartTime, defaultEndTime, defaultNotes }: Props) {
+export function EditWorkoutForm({ workoutId, defaultDate, defaultStartedAt, defaultEndedAt, defaultNotes }: Props) {
   const router = useRouter()
-  const [date, setDate] = useState<Date>(new Date(defaultDate))
-  const [startTime, setStartTime] = useState(defaultStartTime)
-  const [endTime, setEndTime] = useState(defaultEndTime)
+  const [date, setDate] = useState<Date>(new Date(`${defaultDate}T00:00:00`))
+  const [startTime, setStartTime] = useState(() => toLocalTimeString(defaultStartedAt))
+  const [endTime, setEndTime] = useState(() => defaultEndedAt ? toLocalTimeString(defaultEndedAt) : '')
   const [notes, setNotes] = useState(defaultNotes)
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
