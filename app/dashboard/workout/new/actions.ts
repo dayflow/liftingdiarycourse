@@ -6,6 +6,7 @@ import { insertWorkout } from '@/data/workouts'
 
 const createWorkoutSchema = z.object({
   startedAt: z.date(),
+  endedAt: z.date().optional(),
   notes: z.string().optional(),
 })
 
@@ -23,6 +24,7 @@ export async function createWorkout(input: CreateWorkoutInput) {
   const workout = await insertWorkout(
     userId,
     parsed.data.startedAt,
+    parsed.data.endedAt ?? null,
     parsed.data.notes ?? null
   )
 

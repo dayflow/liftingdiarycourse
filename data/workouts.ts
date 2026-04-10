@@ -70,14 +70,36 @@ export async function getWorkoutsForDate(
   return Array.from(map.values())
 }
 
+export async function getWorkoutById(userId: string, workoutId: number) {
+  const [workout] = await db
+    .select()
+    .from(workouts)
+    .where(and(eq(workouts.id, workoutId), eq(workouts.userId, userId)))
+  return workout ?? null
+}
+
+export async function updateWorkout(
+  userId: string,
+  workoutId: number,
+  startedAt: Date,
+  endedAt: Date | null,
+  notes: string | null
+) {
+  await db
+    .update(workouts)
+    .set({ startedAt, endedAt, notes, updatedAt: new Date() })
+    .where(and(eq(workouts.id, workoutId), eq(workouts.userId, userId)))
+}
+
 export async function insertWorkout(
   userId: string,
   startedAt: Date,
+  endedAt: Date | null,
   notes: string | null
 ) {
   const [workout] = await db
     .insert(workouts)
-    .values({ userId, startedAt, notes })
+    .values({ userId, startedAt, endedAt, notes })
     .returning({ id: workouts.id })
   return workout
 }

@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -12,19 +11,22 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
-import { createWorkout } from './actions'
+import { saveWorkout } from './actions'
 
 type Props = {
+  workoutId: number
   defaultDate: string
-  defaultTime: string
+  defaultStartTime: string
+  defaultEndTime: string
+  defaultNotes: string
 }
 
-export function NewWorkoutForm({ defaultDate, defaultTime }: Props) {
+export function EditWorkoutForm({ workoutId, defaultDate, defaultStartTime, defaultEndTime, defaultNotes }: Props) {
   const router = useRouter()
   const [date, setDate] = useState<Date>(new Date(defaultDate))
-  const [startTime, setStartTime] = useState(defaultTime)
-  const [endTime, setEndTime] = useState('')
-  const [notes, setNotes] = useState('')
+  const [startTime, setStartTime] = useState(defaultStartTime)
+  const [endTime, setEndTime] = useState(defaultEndTime)
+  const [notes, setNotes] = useState(defaultNotes)
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -45,7 +47,7 @@ export function NewWorkoutForm({ defaultDate, defaultTime }: Props) {
     }
 
     try {
-      const result = await createWorkout({ startedAt, endedAt, notes: notes || undefined })
+      const result = await saveWorkout({ workoutId, startedAt, endedAt, notes: notes || undefined })
       router.push(`/dashboard?date=${result.date}`)
     } catch {
       setError('Something went wrong. Please try again.')
@@ -98,7 +100,9 @@ export function NewWorkoutForm({ defaultDate, defaultTime }: Props) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="notes">Notes <span className="text-muted-foreground font-normal">(optional)</span></Label>
+        <Label htmlFor="notes">
+          Notes <span className="text-muted-foreground font-normal">(optional)</span>
+        </Label>
         <Textarea
           id="notes"
           value={notes}
@@ -112,7 +116,7 @@ export function NewWorkoutForm({ defaultDate, defaultTime }: Props) {
 
       <div className="flex gap-3">
         <Button type="submit" disabled={pending}>
-          {pending ? 'Creating...' : 'Create workout'}
+          {pending ? 'Saving...' : 'Save changes'}
         </Button>
         <Button type="button" variant="outline" onClick={() => history.back()}>
           Cancel

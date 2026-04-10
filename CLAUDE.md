@@ -48,3 +48,4 @@ Before generating any code, always check the `/docs` directory for a relevant st
 - `docs/data-fetching.md` — Data fetching standards (Server Components only, `/data` helpers, Drizzle ORM, user data isolation)
 - `docs/auth.md` — Authentication standards (Clerk, route protection, middleware, UI components, environment variables)
 - `docs/data-mutations.md` — Data mutation standards (Server Actions, colocated `actions.ts`, Zod validation, `/data` helpers, no FormData)
+- `docs/server-components.md` — Server Component standards (params/searchParams must be awaited, async functions, no client APIs)
